@@ -1,5 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/data/uploads");
+    },
+    filename: function (req, file, cb) {
+      const extension = path.extname(file.originalname);
+      cb(null, `${file.fieldname}-${Date.now()}${extension}`);
+    },
+  }),
+});
 
 const category_controller = require("../controllers/categoryController");
 const item_controller = require("../controllers/itemController");
@@ -7,7 +20,9 @@ const iteminstance_controller = require("../controllers/iteminstanceController")
 const order_controller = require("../controllers/orderController");
 
 // Category routes
-router.get("/", category_controller.index);
+router.get("/", category_controller.index_get);
+
+router.post("/", category_controller.index_post);
 
 router.get("/category/create", category_controller.category_create_get);
 
@@ -29,7 +44,11 @@ router.get("/categories", category_controller.category_list);
 
 router.get("/item/create", item_controller.item_create_get);
 
-router.post("/item/create", item_controller.item_create_post);
+router.post(
+  "/item/create",
+  upload.single("item_image"),
+  item_controller.item_create_post
+);
 
 router.get("/item/:id/delete", item_controller.item_delete_get);
 

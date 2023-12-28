@@ -1,7 +1,32 @@
 doctype html
-html
+html(lang='en')
   head
     title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
   body
-    block content
+    div(class='main_heading')
+      header
+        h1 Inventory Application 
+
+    nav 
+      a(href="/inventory") Home
+      a(href="/inventory/categories") Categories 
+      a(href="/inventory/items") Items
+      a(href="/inventory/iteminstances") Item Instances 
+      a(href="/inventory/orders") Orders
+    
+    div(class="error-container")
+      if errors
+        for error in errors
+          p!= error.msg
+
+    main(class='main_container')
+      block content
+
+  footer 
+    a(href="https://github.com/KyleKeeneWelch") 
+      i.fa.fa-github.icon 
+    | Kyle Keene-Welch

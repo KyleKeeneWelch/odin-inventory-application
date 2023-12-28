@@ -1,0 +1,41 @@
+extends layout
+
+block content 
+  header
+    h2 #{title}
+
+  div(class="create_update_form")
+    form(action=(title === "Create Item" ? "/inventory/item/create" : `/inventory/item/${item._id}/update`) method='POST' enctype="multipart/form-data")
+        div
+          label(for="name") Name
+          br
+          input(type="text" name="name" id="name" required placeholder="Enter name..." value=(undefined === item ? '' : item.name)) 
+        br
+        div 
+          label(for="description") Description
+          br
+          textarea(type="text" cols="30", rows="10" id="description"  name="description" required placeholder="Enter description..." )= undefined === item ? '' : item.description
+        br
+        div 
+          p Category
+          br
+          div(class="checkboxes_container")
+            for category in categories 
+                div 
+                    if category.checked 
+                        input(type="checkbox" name="category" id=category._id value=category._id checked)
+                    else 
+                        input(type="checkbox" name="category" id=category._id value=category._id)
+                    label(for=category._id) 
+                        a(href=category.url) #{category.name}
+        br
+        div 
+          label(for="price") Price (£0.00)
+          input(type="number" step=".01" id="price" name="price" placeholder="0.00..." value=(undefined === item ? null : item.price.toFixed(2)))
+        br
+        div 
+          label(for="item_image") Image 
+          input(type="file" name="item_image" id="item_image")
+        br
+        div
+          button(type="submit") Confirm

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  br
+  div(class="list_container")
+    each category in category_list
+        div
+            a(href=category.url) #[strong #{category.name}]
+            p #{category.description}
+    else
+      p There are no categories.

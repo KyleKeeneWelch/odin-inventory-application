@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  br
+  div(class="list_container")
+    each item in item_list
+        div
+            a(href=item.url) #[strong #{item.name}]
+            p #{item.description}
+            br
+            p
+            each category, index in item.category 
+              if (index == item.category.length - 1)
+                a(href=category.url) #{category.name}
+              else 
+                a(href=category.url) #{category.name}, 
+    else
+      p There are no items.

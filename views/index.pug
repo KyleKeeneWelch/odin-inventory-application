@@ -1,5 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  header
+    h2 #{title}
+
+  div(class="search_container")
+    h3 Find a Category
+    form(action="/inventory" method="POST")
+      input(type="text" name="category" placeholder="shoes..." value=(undefined === search_category ? '' : search_category))
+      button(type="submit") Search
+  br
+  
+  div(id="home_container")
+    div(class="sidebar_container")
+      p #[strong Create]
+      a(href="/inventory/category/create") Create Category
+      a(href="/inventory/item/create") Create Item 
+      a(href="/inventory/iteminstance/create") Create Item Instance 
+      a(href="/inventory/order/create") Create Order
+
+    div(class="categories_container")
+      p #[strong Search Results]
+      if categories
+        for category in categories 
+          div(class="category_container")
+            a(href=category.url) #[strong #{category.name}]
+            p #{category.description}

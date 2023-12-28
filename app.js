@@ -23,7 +23,7 @@ const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 20,
+  max: 50,
 });
 
 const app = express();
@@ -48,7 +48,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'", "maxcdn.bootstrapcdn.com"],
+    },
+  })
+);
 app.use(limiter);
 app.use(express.static(path.join(__dirname, "public")));
 
