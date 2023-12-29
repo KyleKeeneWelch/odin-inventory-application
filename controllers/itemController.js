@@ -1,5 +1,6 @@
 const Item = require("../models/item");
 const Category = require("../models/category");
+const Iteminstance = require("../models/iteminstance");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const debug = require("debug")("item");
@@ -87,7 +88,10 @@ exports.item_create_post = [
 ];
 
 exports.item_delete_get = asyncHandler(async (req, res) => {
-  const item = await Item.findById(req.params.id).exec();
+  const [item, iteminstances] = await Promise.all([
+    Item.findById(req.params.id).exec(),
+    Iteminstance.find({ item: req.params.id }).exec(),
+  ]);
 
   if (item === null) {
     debug(`Item to delete not found: ${req.params.id}`);
@@ -95,8 +99,11 @@ exports.item_delete_get = asyncHandler(async (req, res) => {
     err.status = 404;
     return next(err);
   }
-
-  res.render("item_delete", { title: "Delete Item", item: item });
+  res.render("item_delete", {
+    title: "Delete Item",
+    item: item,
+    iteminstances: iteminstances,
+  });
 });
 
 exports.item_delete_post = asyncHandler(async (req, res) => {

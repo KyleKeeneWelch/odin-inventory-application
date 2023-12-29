@@ -2,11 +2,24 @@ extends layout
 
 block content
   h1 #{title}: #{item.name}
-  br
-  p Do you really want to delete this Item?
-  br
-  form(method='POST')
-    div
-        input(type='hidden', name='itemid', value=item._id )
+  if iteminstances.length
 
-    button(type='submit') Delete
+    p #[strong Delete the following item instances before attempting to delete this item]
+    br
+    h4 Item Instances
+    br
+    div(class="delete_container")
+      each iteminstance in iteminstances
+        div
+          a(href=iteminstance.url) #{iteminstance._id}
+          p #{iteminstance.details}
+
+  else
+    br
+    p Do you really want to delete this Item?
+    br
+    form(method='POST')
+      div
+          input(type='hidden', name='itemid', value=item._id )
+
+      button(type='submit') Delete

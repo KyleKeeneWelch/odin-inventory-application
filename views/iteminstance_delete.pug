@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1 #{title}: #{iteminstance._id}
+  br
+  if order.length
+    p #[strong Delete the following Order before attempting to delete this item instance]
+    br
+    h4 Order
+    br
+    div(class="delete_container")
+      each _order in order
+        div
+          a(href=_order.url) #{_order._id}
+          p #{_order.order_date_formatted}
+  else
+    p Do you really want to delete this Item Instance?
+    br
+    form(method='POST')
+      div
+      input(type='hidden', name='iteminstanceid', value=iteminstance._id )
+
+      button(type='submit') Delete

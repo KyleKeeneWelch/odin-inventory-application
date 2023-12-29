@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 #{title}: #{order._id}
+  br
+  p Do you really want to delete this Order?
+  br
+  form(method='POST')
+    div
+      input(type='hidden', name='orderid', value=order._id )
+
+    button(type='submit') Delete

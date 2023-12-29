@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+  h1 Item Instance: #{iteminstance._id}
+
+  div(class="detail_container")
+    br
+    p #[strong Item: ] #[a(href=iteminstance.item.url) #{iteminstance.item.name}]
+    br
+    p #[strong Status: ] #{iteminstance.status}
+    br 
+    p #[strong Import Date:] #{iteminstance.import_date_formatted}
+    br
+    p #[strong Export Date:] #{iteminstance.export_date_formatted}
+    br
+    p #[strong Details:] #{iteminstance.details}
+    br
+    div(class="detail_buttons")
+        button 
+            a(href=iteminstance.url+'/delete') Delete item instance
+        button
+            a(href=iteminstance.url+'/update') Update item instance

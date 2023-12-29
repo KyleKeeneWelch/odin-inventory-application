@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  h1 Order: #{order._id}
+
+  div(class="detail_container")
+    br
+    p #[strong Order Date: ] #{order.order_date_formatted}
+    br
+    p #[strong Status: ] #{order.status}
+    br 
+    p #[strong Items Instances:]
+    div(class="order_items_container")
+      each iteminstance in order.iteminstances
+        div(class="order_item_container")
+          a(href=iteminstance.url) #{iteminstance._id}
+          p Item: #[a(href=iteminstance.item.url) #{iteminstance.item.name}]
+          p Price: #{iteminstance.item.price}
+    br
+    p #[strong Total:] £#{order.total}
+    br
+    div(class="detail_buttons")
+        button 
+            a(href=order.url+'/delete') Delete order
+        button
+            a(href=order.url+'/update') Update order

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  br
+  div(class="list_container")
+    each iteminstance in iteminstance_list
+        div
+            p 
+              a(href=iteminstance.url) #[strong #{iteminstance._id}]
+            p 
+              a(href=iteminstance.item.url) #{iteminstance.item.name}
+            p #{iteminstance.details}
+    else
+      p There are no items.

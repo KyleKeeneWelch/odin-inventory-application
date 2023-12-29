@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+  h1 Item: #{item.name}
+
+  div(class="detail_container")
+    br
+    p #[strong Name: ] #{item.name}
+    br
+    p #[strong Description: ] #{item.description}
+    br 
+    p #[strong Categories: ]
+        each category, index in item.category
+            if (index == item.category.length - 1)
+                a(href=category.url) #{category.name}
+            else
+                a(href=category.url) #{category.name}, 
+    br
+    p #[strong Price:] £#{item.price.toFixed(2)}
+    br
+    p #[strong Image:]
+    if item.image 
+      img(src=item.image alt="Item Image" class="item_image")
+    else 
+      | No Image Available
+    div(class="detail_buttons")
+        button 
+            a(href=item.url+'/delete') Delete item
+        button
+            a(href=item.url+'/update') Update item

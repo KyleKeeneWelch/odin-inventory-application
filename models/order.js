@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-  items: [{ type: Schema.Types.ObjectId, ref: "Item", required: true }],
+  iteminstances: [
+    { type: Schema.Types.ObjectId, ref: "Iteminstance", required: true },
+  ],
   order_date: { type: Date, required: true },
   status: {
     type: String,
@@ -17,3 +19,15 @@ const orderSchema = new Schema({
 orderSchema.virtual("url").get(function () {
   return `/inventory/order/${this._id}`;
 });
+
+orderSchema.virtual("order_date_formatted").get(function () {
+  return this.order_date
+    ? DateTime.fromJSDate(this.order_date).toLocaleString(DateTime.DATE_MED)
+    : "";
+});
+
+orderSchema.virtual("order_date_yyyy_mm_dd").get(function () {
+  return DateTime.fromJSDate(this.order_date).toISODate();
+});
+
+module.exports = mongoose.model("Order", orderSchema);

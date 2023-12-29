@@ -1,0 +1,36 @@
+
+extends layout
+
+block content
+  h1= title
+
+  if !iteminstances.length
+    p There are no available items
+  else
+    div(class="create_update_form")
+      form(action=(title === "Create Order" ? "/inventory/order/create" : `/inventory/order/${order._id}/update`) method='POST')
+          div
+            label(for="iteminstances") Item Instances
+            br
+            div(class="checkboxes_container")
+              for iteminstance in iteminstances
+                div(class="checkbox_container")
+                  if iteminstance.checked
+                    input(type='checkbox', name='iteminstances', id="iteminstances", value=iteminstance._id, checked)
+                  else
+                    input(type='checkbox', name='iteminstances', id="iteminstances", value=iteminstance._id)
+                  label(for="iteminstances") #[a(href=iteminstance.url) &nbsp;#{iteminstance._id}] - #[a(href=iteminstance.item.url) &nbsp;#{iteminstance.item.name}] - £#{iteminstance.item.price.toFixed(2)}
+          br
+          div 
+            label(for="status") Status 
+            br
+            select(id="status" name="status" required)
+              option(value='') --Please select a status 
+              each val in ["Pending", "Shipped", "Delivered"]
+                  if undefined === order || order.status != val 
+                      option(value = val)= val 
+                  else 
+                      option(value = val selected)= val 
+          br
+          div
+            button(type="submit") Confirm

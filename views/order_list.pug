@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  br
+  div(class="list_container")
+    each order in order_list
+        div
+            p 
+              a(href=order.url) #[strong #{order._id}]
+            p #{order.order_date_formatted}
+            p #{order.status}
+    else
+      p There are no items.
